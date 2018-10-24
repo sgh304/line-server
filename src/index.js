@@ -28,7 +28,7 @@ else {
             lineBytes.push({line: line, byte: byte});
         }
         line += 1;
-        byte += text.length;
+        byte += text.length + 2;
     }).then(() => {
         // Create Express app
         const app = express();
@@ -37,6 +37,26 @@ else {
         app.get('/', (req, res) => {
             res.send(`Welcome to the line server. Currently serving lines from ${filename}.`);
         });
+
+        app.get('/lines/:line/', (req, res) => {
+            // Get the closest prior lineByte record
+            let lineByte = 0;
+            for (let i = lineBytes.length - 1; i >= 0; i--) {
+                if (lineBytes[i].line < req.params.line) {
+                    lineByte = lineBytes[i];
+                    break;
+                }
+            }
+            // Read forward to requested line
+            let line = lineByte.line;
+            let byte = lineByte.byte;
+            file.getSplitStream(filename, byte, (text) => {
+                if (line == req.params.line) {
+                    res.send(text);
+                }
+                line += 1;
+            })
+        })
 
         // Listen
         app.listen(config.port, () => console.log(`Server listening on port ${config.port}`));
