@@ -32,7 +32,7 @@ class FileHandler {
                 currentLine += 1;
                 currentByte += text.length + 2;
             }).then(() => {
-                this.totalLines = currentLine - 1;
+                this.totalLines = currentLine - 2;
                 resolve();
             });
         })

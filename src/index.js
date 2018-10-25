@@ -12,7 +12,6 @@ fileHandler.preprocess().then(() => {
     app.get('/', (req, res) => {
         res.send(`Welcome to Sam's line server. Currently serving lines from ${fileHandlers.filename}.`);
     });
-    // TODO: Fix line count bug. It's either over-counting or the last 2 lines are inaccessible.
     app.get('/lines/', (req, res) => {
         res.send(`${fileHandler.filename} contains ${fileHandler.totalLines} lines.`);
     });
