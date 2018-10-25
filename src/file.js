@@ -34,7 +34,7 @@ class FileHandler {
                 currentByte += text.length + 2;
             }).then(() => {
                 this.totalLines = currentLine - 2;
-                console.log(`Preprocessing of ${this.filename} complete.`);
+                console.log(`Preprocessing of ${this.filename} complete with ${this.totalLines} lines and ${this.lineBytes.length} line:byte records.`);
                 resolve();
             });
         })

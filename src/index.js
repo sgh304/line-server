@@ -4,7 +4,7 @@ const express = require('express');
 const file = require('./file.js');
 
 // Create the file handler using the filename from command line arguments and the lineByteDistance from the config file.
-const fileHandler = new file.FileHandler(process.argv[2], config.lineByteDistance);
+const fileHandler = new file.FileHandler(process.argv[2], config.lineBytesDistance);
 fileHandler.preprocess().then(() => {
     // Create the Express app
     const app = express();
