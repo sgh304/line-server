@@ -21,6 +21,7 @@ class FileHandler {
         lineBytesDistance. */
         return new Promise((resolve, reject) => {
             console.log(`Preprocessing file ${this.filename}...`);
+            const startTime = Date.now();
             let currentLine = 0;
             let currentByte = 0;
             this.readLines(0, (text) => {
@@ -34,7 +35,8 @@ class FileHandler {
                 currentByte += text.length + 2;
             }).then(() => {
                 this.totalLines = currentLine - 2;
-                console.log(`Preprocessing of ${this.filename} complete with ${this.totalLines} lines and ${this.lineBytes.length} line:byte records.`);
+                console.log(`Preprocessing of ${this.filename} complete with ${this.totalLines} lines and
+                    ${this.lineBytes.length} line:byte records in ${(Date.now() - startTime) / 1000} seconds.`);
                 resolve();
             });
         })

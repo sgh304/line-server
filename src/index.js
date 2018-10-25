@@ -1,7 +1,7 @@
 // Imports
-const config = require('./config.json');
-const express = require('express');
-const file = require('./file.js');
+const config = require('./config.json'); // Contains the server's configuration.
+const express = require('express'); // The server framework.
+const file = require('./file.js'); // Contains the API for reading the text file.
 
 // Create the file handler using the filename from command line arguments and the lineByteDistance from the config file.
 const fileHandler = new file.FileHandler(process.argv[2], config.lineBytesDistance);
@@ -17,15 +17,15 @@ fileHandler.preprocess().then(() => {
     });
     app.get('/lines/:line/', (req, res) => {
         const line = parseInt(req.params.line);
-        // Bad Request
+        // If something that is not line number is requested, Bad Request
         if (line == undefined) {
             res.sendStatus(400);
         }
-        // Payload Too Large
+        // If the file doesn't have the requested line, Payload Too Large
         else if (line > fileHandler.totalLines) {
             res.sendStatus(413);
         }
-        // Valid Request
+        // Otherwise, OK
         else {
             fileHandler.getLine(line).then((text) => {
                 res.send(text);
@@ -33,5 +33,5 @@ fileHandler.preprocess().then(() => {
         }
     });
     // Listen on the port defined in the config file
-    app.listen(config.port, () => console.log(`Server listening on port ${config.port}`));
+    app.listen(config.port, () => console.log(`Sam's line server is listening on port ${config.port}`));
 });
