@@ -52,7 +52,7 @@ class FileHandler {
             // Locate the nearest and prior lineByte.
             let lineByte = 0;
             for (let i = this.lineBytes.length - 1; i >= 0; i--) {
-                if (this.lineBytes[i].line < line) {
+                if (this.lineBytes[i].line <= line) {
                     lineByte = this.lineBytes[i];
                     break;
                 }

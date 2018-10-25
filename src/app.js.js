@@ -10,7 +10,7 @@ fileHandler.preprocess().then(() => {
     const app = express();
     // Define the app's routes
     app.get('/', (req, res) => {
-        res.send(`Welcome to Sam's line server. Currently serving lines from ${fileHandlers.filename}.`);
+        res.send(`Welcome to Sam's line server. Currently serving lines from ${fileHandler.filename}.`);
     });
     app.get('/lines/', (req, res) => {
         res.send(`${fileHandler.filename} contains ${fileHandler.totalLines} lines.`);
@@ -18,7 +18,7 @@ fileHandler.preprocess().then(() => {
     app.get('/lines/:line/', (req, res) => {
         const line = parseInt(req.params.line);
         // If something that is not line number is requested, Bad Request
-        if (line == undefined) {
+        if (isNaN(line)) {
             res.sendStatus(400);
         }
         // If the file doesn't have the requested line, Payload Too Large
