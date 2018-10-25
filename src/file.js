@@ -54,27 +54,28 @@ class FileHandler {
             }
             // Read forward to requested line.
             let currentLine = lineByte.line;
-            let lineText = '';
-            this.readLines(lineByte.byte, (text) => {
-                // TODO: Stop reading after line is found
+            this.readLines(lineByte.byte, (text, stream) => {
+                // When the requested line is reached, destroy the stream and resolve. 
                 if (currentLine == line) {
-                    lineText = text;
+                    stream.destroy();
+                    resolve(text);
                 }
                 currentLine += 1;
-            }).then(() => { resolve(lineText); });
+            });
         });
     }
 
     readLines(start, textCallback) {
         /* Returns a Promise that resolves at the end of a ReadStream of the file with the
         given filename, starting at the given byte. The stream calls the given textCallback
-        on every line of the stream. If the file cannot be read, an error message is logged
-        and the process is terminated. */
+        on every line of the stream, passing the line's text and the stream itself (for early
+        destruction). If the file cannot be read, an error message is logged and the process
+        is terminated. */
         return new Promise((resolve, reject) => {
-            fs.createReadStream(this.filename, {start: start})
+            const stream = fs.createReadStream(this.filename, {start: start})
                 .pipe(split())
                 .on('data', (text) => {
-                    textCallback(text);
+                    textCallback(text, stream);
                 })
                 .on('end', () => {
                     resolve();
@@ -91,8 +92,6 @@ class FileHandler {
         console.log(`ERROR: Could not read file ${this.filename}!`);
         process.exit();
     }
-
 }
-
 
 module.exports = {FileHandler: FileHandler};
