@@ -19,7 +19,11 @@ function timeReadingBytes(filename, bytes) {
     During these experiments, I also learned that reading more bytes through a stream piped into the split package
     doesn't necessarily increase read time linearly. For example, while reading 1,000,000B took ~20ms, reading
     10,000,000B usually only took ~65ms, and even 1GB only took ~4.5s. This suggests that my preprocessing
-    could be quite fast, even for large files. */
+    could be relatively fast, even for large files.
+    Also, an earlier implementation of this test performed mutliple reads at the same time, which I found to work,
+    albeit with a little slower read speed overall. All reads performed at the same time slowed down, with all
+    of them returning in about the same time. So serving lines to many users might slow the server down a bit,
+    however it will be a consistent speed across all users. */
     let start = Date.now();
     let read = 0;
     let done = false;

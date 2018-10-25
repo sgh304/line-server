@@ -1,5 +1,5 @@
 // Imports
-const config = require('./config.json'); // Contains the server's configuration.
+const config = require('../config.json'); // Contains the server's configuration.
 const express = require('express'); // The server framework.
 const file = require('./file.js'); // Contains the API for reading the text file.
 
