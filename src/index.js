@@ -22,7 +22,7 @@ fileHandler.preprocess().then(() => {
             res.sendStatus(400);
         }
         // If the file doesn't have the requested line, Payload Too Large
-        else if (line > fileHandler.totalLines) {
+        else if (line >= fileHandler.totalLines) {
             res.sendStatus(413);
         }
         // Otherwise, OK

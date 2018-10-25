@@ -2,8 +2,8 @@
 reading the text file that the server is... serving. */
 
 // Imports
-const fs = require('fs');
-const split = require('split');
+const fs = require('fs'); // For managing the file system.
+const split = require('split'); // A package that turns readableStreams into streams of split lines.
 
 class FileHandler {
     constructor(filename, lineBytesDistance) {
@@ -34,7 +34,7 @@ class FileHandler {
                 currentLine += 1;
                 currentByte += text.length + 2;
             }).then(() => {
-                this.totalLines = currentLine - 2;
+                this.totalLines = currentLine - 1;
                 console.log(`Preprocessing of ${this.filename} complete with ${this.totalLines} lines and ` +
                     `${this.lineBytes.length} line:byte records in ${(Date.now() - startTime) / 1000} seconds.`);
                 resolve();
