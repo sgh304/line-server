@@ -33,5 +33,5 @@ fileHandler.preprocess().then(() => {
         }
     });
     // Listen on the port defined in the config file
-    app.listen(config.port, () => console.log(`Sam's line server is listening on port ${config.port}`));
+    app.listen(config.port, () => console.log(`Sam's line server is listening on port ${config.port}!`));
 });

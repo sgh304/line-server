@@ -48,6 +48,7 @@ class FileHandler {
         line, then reading the text file starting at that record's byte position until the requested line
         is reached. */
         return new Promise((resolve, reject) => {
+            console.log(`Retreving line ${line}...`);
             // Locate the nearest and prior lineByte.
             let lineByte = 0;
             for (let i = this.lineBytes.length - 1; i >= 0; i--) {
@@ -62,6 +63,7 @@ class FileHandler {
                 // When the requested line is reached, destroy the stream and resolve. 
                 if (currentLine == line) {
                     stream.destroy();
+                    console.log(`Line ${line} retrieved!`);
                     resolve(text);
                 }
                 currentLine += 1;
