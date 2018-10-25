@@ -20,6 +20,7 @@ class FileHandler {
         lines' starting bytes, with the distance between each record being roughly equal to the handler's
         lineBytesDistance. */
         return new Promise((resolve, reject) => {
+            console.log(`Preprocessing file ${this.filename}...`);
             let currentLine = 0;
             let currentByte = 0;
             this.readLines(0, (text) => {
@@ -33,6 +34,7 @@ class FileHandler {
                 currentByte += text.length + 2;
             }).then(() => {
                 this.totalLines = currentLine - 2;
+                console.log(`Preprocessing of ${this.filename} complete.`);
                 resolve();
             });
         })
@@ -73,15 +75,15 @@ class FileHandler {
         is terminated. */
         return new Promise((resolve, reject) => {
             const stream = fs.createReadStream(this.filename, {start: start})
+                .on('error', (err) => {
+                    this.terminate();
+                })
                 .pipe(split())
                 .on('data', (text) => {
                     textCallback(text, stream);
                 })
                 .on('end', () => {
                     resolve();
-                })
-                .on('error', () => {
-                    this.terminate();
                 });
         });
     }
