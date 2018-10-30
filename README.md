@@ -4,7 +4,7 @@ This is a system I built to solve [Salsify's Line Server Problem](https://salsif
 
 It is a server that delivers individual lines of a text file to users utilizing a simple REST API.
 
-My approach first maps some of the text file's line numbers to the bytes that those lines begin on in memory, enabling the server to quickly navigate the file upon requests and serve lines efficiently, even when faced with a large text file and/or many users.
+My approach first maps some of the text file's line numbers to the bytes that those lines begin on, enabling the server to quickly navigate the file upon requests and serve lines efficiently, even when faced with a large text file and/or many users.
 
 ## Instructions
 My server requires [Node](https://nodejs.org/en/) to run.
