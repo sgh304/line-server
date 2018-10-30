@@ -6,19 +6,17 @@ const fs = require('fs'); // For managing the file system.
 const split = require('split'); // A package that turns readableStreams into streams of split lines.
 
 class FileHandler {
-    constructor(filename, lineBytesDistance) {
+    constructor(filename) {
         /* Creates a FileHandler object that handles the file with the given filename and
         observes the given lineBytesDistance. */
         this.filename = filename;
-        this.lineBytesDistance = lineBytesDistance;
         this.lineBytes = [{line: 0, byte: 0}]; // Objects that map line numbers to the lines' starting bytes
     }
 
-    preprocess() {
+    preprocess(lineBytesDistance) {
         /* Returns a Promise that resolves after performing the initial processing of the handled
         text file. The lineBytes array is built, mapping some of the handled file's line numbers to the
-        lines' starting bytes, with the distance between each record being roughly equal to the handler's
-        lineBytesDistance. */
+        lines' starting bytes, with the distance between each record being roughly equal to lineBytesDistance. */
         return new Promise((resolve, reject) => {
             console.log(`Preprocessing file ${this.filename}...`);
             const startTime = Date.now();
@@ -26,13 +24,13 @@ class FileHandler {
             let currentByte = 0;
             this.readLines(0, (text) => {
                 /* When the difference between the current byte and the last recorded line's starting byte exceeds
-                the handler's lineBytesDistance, a new record is added. */
-                if (currentByte - this.lineBytes[this.lineBytes.length - 1].byte >= this.lineBytesDistance) {
+                lineBytesDistance, a new record is added. */
+                if (currentByte - this.lineBytes[this.lineBytes.length - 1].byte >= lineBytesDistance) {
                     this.lineBytes.push({line: currentLine, byte: currentByte});
                 }
                 // Increment line number and read bytes each line.
                 currentLine += 1;
-                currentByte += text.length + 2;
+                currentByte += text.length + 2; // Each character in ASCII is one byte, so the line's bytes is the length of the line's text + 2 (for the '\n', which is not counted as text)
             }).then(() => {
                 this.totalLines = currentLine - 1;
                 console.log(`Preprocessing of ${this.filename} complete with ${this.totalLines} lines and ` +

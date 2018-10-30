@@ -39,4 +39,4 @@ function timeReadingBytes(filename, bytes) {
                         });
 }
 
-//timeReadingBytes('testfile4.txt', 1000000);
+timeReadingBytes('testfile4.txt', 1000000);

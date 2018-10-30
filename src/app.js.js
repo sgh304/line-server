@@ -3,9 +3,10 @@ const config = require('../config.json'); // Contains the server's configuration
 const express = require('express'); // The server framework.
 const file = require('./file.js'); // Contains the API for reading the text file.
 
-// Create the file handler using the filename from command line arguments and the lineByteDistance from the config file.
-const fileHandler = new file.FileHandler(process.argv[2], config.lineBytesDistance);
-fileHandler.preprocess().then(() => {
+// Create the file handler using the filename from command line arguments
+const fileHandler = new file.FileHandler(process.argv[2]);
+// Preprocess the file with the lineBytesDistance from the config
+fileHandler.preprocess(config.lineBytesDistance).then(() => {
     // Create the Express app
     const app = express();
     // Define the app's routes
